@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/teamFragment"
+    tools:ignore="ExtraText">
+
+    <fragment
+        android:id="@+id/teamFragment"
+        android:name="com.example.proyecto1.ui.TeamFragment"
+        android:label="@string/team"
+        tools:layout="@layout/fragment_team" >
+        <action
+            android:id="@+id/action_teamFragment_to_detallePokemonFragment"
+            app:destination="@id/detallePokemonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokedexFragment"
+        android:name="com.example.proyecto1.ui.PokedexFragment"
+        android:label="@string/pokedex"
+        tools:layout="@layout/fragment_pokedex" >
+        <action
+            android:id="@+id/action_pokedexFragment_to_detallePokemonFragment"
+            app:destination="@id/detallePokemonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/generadorFragment"
+        android:name="com.example.proyecto1.ui.GeneradorFragment"
+        android:label="@string/generador"
+        tools:layout="@layout/fragment_generador" />
+    <fragment
+        android:id="@+id/detallePokemonFragment"
+        android:name="com.example.proyecto1.ui.DetallePokemonFragment"
+        android:label="fragment_detalle_pokemon"
+        tools:layout="@layout/fragment_detalle_pokemon" /> <!-- Este campo marca el título de la app bar -->
+</navigation>
