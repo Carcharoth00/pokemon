@@ -22,14 +22,12 @@ import java.util.List;
 
 
 public class PokedexFragment extends Fragment {
-
     private FragmentPokedexBinding binding;
-    private PokemonRepository repository;
-    private PokemonAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflamos el layout usando ViewBinding (en lugar de findViewById)
         binding = FragmentPokedexBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -38,18 +36,13 @@ public class PokedexFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        repository = new PokemonRepository();
-        List<Pokemon> listaPokemons = repository.getListaPokemons();
-
-        adapter = new PokemonAdapter(requireContext(), listaPokemons);
-        binding.recyclerView.setAdapter(adapter);
-
-        binding.recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-
+        // 1️⃣ Configuramos el adaptador que define qué fragment se muestra en cada pestaña
         establecerAdaptadorViewPager();
-        vincularTabLayoutConViewPager();
 
+        // 2️⃣ Vinculamos el TabLayout con el ViewPager2 para sincronizar ambos componentes
+        vincularTabLayoutConViewPager();
     }
+
     /**
      * Crea y asigna el adaptador del ViewPager2.
      * Este adaptador indica cuántas páginas (fragments) hay y cuál debe mostrarse según la posición.
@@ -85,13 +78,13 @@ public class PokedexFragment extends Fragment {
                 (tab, position) -> {
                     switch (position) {
                         case 0:
-                            tab.setText("Local");
+                            tab.setText("Gen I");
                             break;
                         case 1:
-                            tab.setText("Nacional");
+                            tab.setText("Gen II");
                             break;
                         case 2:
-                            tab.setText("Internacional");
+                            tab.setText("Gen III");
                             break;
                     }
                 }).attach();
