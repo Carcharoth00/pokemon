@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
     tools:context=".ui.GeneradorFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Tarjeta principal que muestra el Pokémon generado.
+         Usa MaterialCardView para ser consistente con tu viewholder. -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/generador" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- ImageView para el Pokémon. Coincide con el ID que usará el Fragment. -->
+            <ImageView
+                android:id="@+id/ivPokemonGenerado"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/charizard" /> <!-- Imagen de ejemplo -->
+
+            <!-- TextView para el nombre. Coincide con el ID que usará el Fragment. -->
+            <TextView
+                android:id="@+id/tvNombrePokemonGenerado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                tools:text="Charizard" /> <!-- Texto de ejemplo -->
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Botón para accionar la generación.
+         Coincide con el ID que usará la lógica del Fragment. -->
+    <Button
+        android:id="@+id/btnGenerarPokemon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:text="¡Generar Pokémon!"/>
+
+</LinearLayout>

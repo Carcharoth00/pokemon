@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.TeamFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Un título claro y centrado para la sección. -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mi Equipo Pokémon"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"/>
+
+    <!-- El RecyclerView mostrará la lista de Pokémon usando tu 'viewholder_pokemon.xml'.
+         El ID 'recyclerViewTeam' coincide con el sugerido en la lógica del Fragment. -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTeam"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:padding="8dp"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:listitem="@layout/viewholder_pokemon" /> <!-- ¡Clave! Previsualiza usando tu ViewHolder -->
 
-</FrameLayout>
+</LinearLayout>

@@ -1,66 +1,64 @@
 package com.example.proyecto1.ui;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.proyecto1.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetallePokemonFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.proyecto1.databinding.FragmentDetallePokemonBinding;
+import com.example.proyecto1.model.Pokemon;
+import com.example.proyecto1.repository.PokemonRepository;
+
+// Asegúrate de que el import de la clase 'Args' generada exista.
+// Si no, Android Studio te pedirá que lo añadas.
+// import com.example.proyecto1.ui.DetallePokemonFragmentArgs;
+
 public class DetallePokemonFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentDetallePokemonBinding binding;
+    private PokemonRepository repository;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DetallePokemonFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetallePokemonFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetallePokemonFragment newInstance(String param1, String param2) {
-        DetallePokemonFragment fragment = new DetallePokemonFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentDetallePokemonBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        repository = new PokemonRepository();
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+            // --- CORRECCIÓN 1: Usar la clase 'Args' correcta ---
+            int position = DetallePokemonFragmentArgs.fromBundle(getArguments()).getPokemonPosition();
+
+            Pokemon pokemonSeleccionado = repository.getPokemon(position);
+
+            if (pokemonSeleccionado != null) {
+                binding.tvNum.setText("#" + pokemonSeleccionado.getNumero());
+                // Corregido: tu clase Pokemon usa getImagen(), no getImage()
+                binding.ivDetalle.setImageResource(pokemonSeleccionado.getImage());
+                binding.tvNombre.setText(pokemonSeleccionado.getNombre());
+            } else {
+                Toast.makeText(getContext(), "Error: No se pudo encontrar el Pokémon.", Toast.LENGTH_SHORT).show();
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
+            }
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detalle_pokemon, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
+
 }

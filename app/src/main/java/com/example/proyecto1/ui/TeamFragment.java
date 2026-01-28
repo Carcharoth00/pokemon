@@ -1,66 +1,72 @@
 package com.example.proyecto1.ui;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.proyecto1.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TeamFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.proyecto1.adapter.PokemonAdapter;
+import com.example.proyecto1.databinding.FragmentTeamBinding;
+import com.example.proyecto1.model.Pokemon;
+import com.example.proyecto1.repository.PokemonRepository;
+
+import java.util.List;
+
 public class TeamFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // Declarar las variables a nivel de clase para que estén disponibles en todos los métodos.
+    private FragmentTeamBinding binding;
+    private PokemonAdapter adapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TeamFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TeamFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TeamFragment newInstance(String param1, String param2) {
-        TeamFragment fragment = new TeamFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // 1. Se infla la vista y se inicializa 'binding'.
+        //    A partir de aquí y hasta onDestroyView(), 'binding' no será null.
+        binding = FragmentTeamBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // --- LÓGICA DE CONFIGURACIÓN INICIAL (SE EJECUTA UNA SOLA VEZ POR CADA VISTA CREADA) ---
+
+        // 2. Obtenemos la lista del equipo desde el repositorio.
+        List<Pokemon> equipoActual = PokemonRepository.getMiEquipo();
+
+        // 3. Creamos una nueva instancia del adaptador con la lista.
+        adapter = new PokemonAdapter(requireContext(), equipoActual);
+
+        // 4. Configuramos el RecyclerView con su LayoutManager y le asignamos el adaptador.
+        //    Este es el lugar seguro para interactuar con 'binding'.
+        binding.recyclerViewTeam.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        binding.recyclerViewTeam.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // --- LÓGICA DE ACTUALIZACIÓN (SE EJECUTA CADA VEZ QUE EL FRAGMENTO SE HACE VISIBLE) ---
+
+        // 5. Cuando el fragmento se vuelve visible, solo necesitamos notificar al adaptador
+        //    que los datos pueden haber cambiado (por ej., si se añadió un Pokémon).
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_team, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        // 6. Es una buena práctica limpiar la referencia al 'binding' para liberar memoria
+        //    y evitar fugas. Este es el paso que hace que el 'binding' sea null
+        //    y por qué no se debe usar en onResume() para inicializar vistas.
+        binding = null;
     }
 }

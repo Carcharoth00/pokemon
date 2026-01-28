@@ -2,65 +2,69 @@ package com.example.proyecto1.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.proyecto1.R;
+import com.example.proyecto1.databinding.FragmentGeneradorBinding;
+import com.example.proyecto1.model.Pokemon;
+import com.example.proyecto1.repository.PokemonRepository;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GeneradorFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class GeneradorFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public GeneradorFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GeneradorFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GeneradorFragment newInstance(String param1, String param2) {
-        GeneradorFragment fragment = new GeneradorFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private FragmentGeneradorBinding binding;
+    private PokemonRepository repository;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_generador, container, false);
+        // Inflar el layout usando View Binding
+        binding = FragmentGeneradorBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Instanciar el repositorio
+        repository = new PokemonRepository();
+
+        // Configurar el listener del botón
+        binding.btnGenerarPokemon.setOnClickListener(v -> {
+            // Llama al método del repositorio para obtener y añadir un Pokémon
+            Pokemon pokemonGenerado = repository.anadirPokemonAleatorioAlEquipo();
+
+            if (pokemonGenerado != null) {
+                // Actualiza la UI con el nuevo Pokémon
+                actualizarVista(pokemonGenerado);
+
+                // Muestra un mensaje de confirmación
+                Toast.makeText(getContext(), pokemonGenerado.getNombre() + " se ha unido a tu equipo!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "No se pudo generar un Pokémon.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Método auxiliar para mantener el código limpio
+    private void actualizarVista(Pokemon pokemon) {
+        // Asigna la imagen y el nombre a los elementos de la vista
+        binding.ivPokemonGenerado.setImageResource(pokemon.getImage());
+        binding.tvNombrePokemonGenerado.setText(pokemon.getNombre());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Limpia la referencia al binding para evitar memory leaks
+        binding = null;
     }
 }

@@ -68,13 +68,41 @@ public class PokemonRepository {
         return listaPokemons;
     }
 
+    public List<Pokemon> getPokemonsPorRango(int inicio, int fin) {
+        List<Pokemon> pokemonsFiltrados = new ArrayList<>();
+        for (Pokemon pokemon : listaPokemons) {
+            // Convertimos el número de Pokémon (String) a un entero para comparar
+            int numeroPokemon = Integer.parseInt(pokemon.getNumero());
+            if (numeroPokemon >= inicio && numeroPokemon <= fin) {
+                pokemonsFiltrados.add(pokemon);
+            }
+        }
+        return pokemonsFiltrados;
+    }
+
     public static List<Pokemon> getMiEquipo() {
         return miEquipo;
     }
 
-    public void pokemonAleatorio(){
+    /*public void pokemonAleatorio(){
         int random = (int) (Math.random() * listaPokemons.size());
         miEquipo.add(listaPokemons.get(random));
+    }*/
+
+    public Pokemon anadirPokemonAleatorioAlEquipo() {
+        if (listaPokemons == null || listaPokemons.isEmpty()) {
+            return null; // Evita errores si la lista está vacía
+        }
+
+        // 1. Selecciona un Pokémon al azar de la lista completa
+        int randomIndex = (int) (Math.random() * listaPokemons.size());
+        Pokemon pokemonAleatorio = listaPokemons.get(randomIndex);
+
+        // 2. Lo añade a la lista estática del equipo
+        miEquipo.add(pokemonAleatorio);
+
+        // 3. Devuelve el Pokémon que acaba de ser añadido
+        return pokemonAleatorio;
     }
 
 }

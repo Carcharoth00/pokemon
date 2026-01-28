@@ -42,10 +42,10 @@ public class Gen3Fragment extends Fragment {
 
         // Obtenemos la lista desde el Repository
         repository = new PokemonRepository();
-        List<Pokemon> listaPokemons = repository.getPokemons();
+        List<Pokemon> listaGen3 = repository.getPokemonsPorRango(252, 386);
 
         // Configuramos el RecyclerView
-        adapter = new PokemonAdapter(requireContext(), listaPokemons);
+        adapter = new PokemonAdapter(requireContext(), listaGen3);
         binding.recyclerView.setAdapter(adapter);
 
         // Definimos el LayoutManager (en cuadrícula de 2 columnas)

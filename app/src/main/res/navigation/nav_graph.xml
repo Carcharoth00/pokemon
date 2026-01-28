@@ -3,35 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/teamFragment"
-    tools:ignore="ExtraText">
+    app:startDestination="@id/teamFragment">
+
+    <!-- =========== ¡ACCIÓN GLOBAL! =========== -->
+    <!-- Se puede llamar desde CUALQUIER fragmento del gráfico. -->
+    <action
+        android:id="@+id/action_global_to_detallePokemonFragment"
+        app:destination="@id/detallePokemonFragment" />
 
     <fragment
         android:id="@+id/teamFragment"
         android:name="com.example.proyecto1.ui.TeamFragment"
         android:label="@string/team"
-        tools:layout="@layout/fragment_team" >
-        <action
-            android:id="@+id/action_teamFragment_to_detallePokemonFragment"
-            app:destination="@id/detallePokemonFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_team" />
+    <!-- Ya no necesitamos la acción específica aquí -->
+
     <fragment
         android:id="@+id/pokedexFragment"
         android:name="com.example.proyecto1.ui.PokedexFragment"
         android:label="@string/pokedex"
-        tools:layout="@layout/fragment_pokedex" >
-        <action
-            android:id="@+id/action_pokedexFragment_to_detallePokemonFragment"
-            app:destination="@id/detallePokemonFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/generadorFragment"
-        android:name="com.example.proyecto1.ui.GeneradorFragment"
-        android:label="@string/generador"
-        tools:layout="@layout/fragment_generador" />
+        tools:layout="@layout/fragment_pokedex" />
+    <!-- Ni aquí tampoco -->
+
+    <!-- ... resto de tus fragmentos ... -->
     <fragment
         android:id="@+id/detallePokemonFragment"
         android:name="com.example.proyecto1.ui.DetallePokemonFragment"
         android:label="fragment_detalle_pokemon"
-        tools:layout="@layout/fragment_detalle_pokemon" /> <!-- Este campo marca el título de la app bar -->
+        tools:layout="@layout/fragment_detalle_pokemon">
+        <!-- ¡Importante! El argumento debe estar definido en el destino -->
+        <argument
+            android:name="pokemonPosition"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>
