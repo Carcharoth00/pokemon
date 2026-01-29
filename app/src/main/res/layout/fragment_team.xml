@@ -30,4 +30,23 @@
         app:spanCount="2"
         tools:listitem="@layout/viewholder_pokemon" /> <!-- ¡Clave! Previsualiza usando tu ViewHolder -->
 
+    <!-- TextView que se mostrará cuando el equipo esté vacío -->
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vacio"
+        android:textSize="18sp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:paddingTop="120dp"
+        android:drawablePadding="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"/>
+
 </LinearLayout>

@@ -54,6 +54,7 @@ public class TeamFragment extends Fragment {
         binding.recyclerViewTeam.setAdapter(adapter);
 
         eventoEliminarElto(view);
+        checkEmptyState();
     }
 
     @Override
@@ -65,6 +66,21 @@ public class TeamFragment extends Fragment {
         //    que los datos pueden haber cambiado (por ej., si se añadió un Pokémon).
         if (adapter != null) {
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void checkEmptyState() {
+        // Obtenemos la lista del equipo
+        List<Pokemon> equipo = PokemonRepository.getMiEquipo();
+
+        if (equipo == null || equipo.isEmpty()) {
+            // Si la lista está vacía, ocultamos el RecyclerView y mostramos el mensaje
+            binding.recyclerViewTeam.setVisibility(View.GONE);
+            binding.emptyView.setVisibility(View.VISIBLE);
+        } else {
+            // Si la lista NO está vacía, mostramos el RecyclerView y ocultamos el mensaje
+            binding.recyclerViewTeam.setVisibility(View.VISIBLE);
+            binding.emptyView.setVisibility(View.GONE);
         }
     }
 
