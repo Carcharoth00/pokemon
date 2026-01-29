@@ -23,6 +23,19 @@ public class DetallePokemonFragment extends Fragment {
     private FragmentDetallePokemonBinding binding;
     private PokemonRepository repository;
 
+    Pokemon pokemonSeleccionado;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+
+            pokemonSeleccionado = (Pokemon) getArguments().getSerializable("pokemon");
+
+        }
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,23 +49,16 @@ public class DetallePokemonFragment extends Fragment {
 
         repository = new PokemonRepository();
 
-        if (getArguments() != null) {
-
-            // --- CORRECCIÓN 1: Usar la clase 'Args' correcta ---
-            int position = DetallePokemonFragmentArgs.fromBundle(getArguments()).getPokemonPosition();
-
-            Pokemon pokemonSeleccionado = repository.getPokemon(position);
-
-            if (pokemonSeleccionado != null) {
-                binding.tvNum.setText("#" + pokemonSeleccionado.getNumero());
-                // Corregido: tu clase Pokemon usa getImagen(), no getImage()
-                binding.ivDetalle.setImageResource(pokemonSeleccionado.getImage());
-                binding.tvNombre.setText(pokemonSeleccionado.getNombre());
-            } else {
-                Toast.makeText(getContext(), "Error: No se pudo encontrar el Pokémon.", Toast.LENGTH_SHORT).show();
-                requireActivity().getOnBackPressedDispatcher().onBackPressed();
-            }
+        if (pokemonSeleccionado != null) {
+            binding.tvNum.setText("#" + pokemonSeleccionado.getNumero());
+            // Corregido: tu clase Pokemon usa getImagen(), no getImage()
+            binding.ivDetalle.setImageResource(pokemonSeleccionado.getImage());
+            binding.tvNombre.setText(pokemonSeleccionado.getNombre());
+        } else {
+            Toast.makeText(getContext(), "Error: No se pudo encontrar el Pokémon.", Toast.LENGTH_SHORT).show();
+            requireActivity().getOnBackPressedDispatcher().onBackPressed();
         }
+
     }
 
     @Override

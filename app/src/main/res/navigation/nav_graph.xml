@@ -5,36 +5,40 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/teamFragment">
 
-    <!-- =========== ¡ACCIÓN GLOBAL! =========== -->
-    <!-- Se puede llamar desde CUALQUIER fragmento del gráfico. -->
-    <action
-        android:id="@+id/action_global_to_detallePokemonFragment"
-        app:destination="@id/detallePokemonFragment" />
 
     <fragment
         android:id="@+id/teamFragment"
         android:name="com.example.proyecto1.ui.TeamFragment"
         android:label="@string/team"
-        tools:layout="@layout/fragment_team" />
+        tools:layout="@layout/fragment_team" >
+        <action
+            android:id="@+id/action_to_detallePokemonFragment"
+            app:destination="@id/detallePokemonFragment" />
+    </fragment>
     <!-- Ya no necesitamos la acción específica aquí -->
 
     <fragment
         android:id="@+id/pokedexFragment"
         android:name="com.example.proyecto1.ui.PokedexFragment"
         android:label="@string/pokedex"
-        tools:layout="@layout/fragment_pokedex" />
+        tools:layout="@layout/fragment_pokedex" >
+        <action
+            android:id="@+id/action_to_detallePokemonFragment"
+            app:destination="@id/detallePokemonFragment" />
+    </fragment>
     <!-- Ni aquí tampoco -->
 
     <!-- ... resto de tus fragmentos ... -->
     <fragment
         android:id="@+id/detallePokemonFragment"
         android:name="com.example.proyecto1.ui.DetallePokemonFragment"
-        android:label="fragment_detalle_pokemon"
+        android:label="@string/detalle"
         tools:layout="@layout/fragment_detalle_pokemon">
-        <!-- ¡Importante! El argumento debe estar definido en el destino -->
-        <argument
-            android:name="pokemonPosition"
-            app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/generadorFragment"
+        android:name="com.example.proyecto1.ui.GeneradorFragment"
+        android:label="@string/generador"
+        tools:layout="@layout/fragment_generador" />
 
 </navigation>

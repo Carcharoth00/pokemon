@@ -46,7 +46,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
             bundle.putSerializable("pokemon", pokemon);
 
             NavController navController = Navigation.findNavController(v);
-            navController.navigate(R.id.action_pokedexFragment_to_detallePokemonFragment, bundle);
+            navController.navigate(R.id.action_to_detallePokemonFragment, bundle);
         });
     }
 

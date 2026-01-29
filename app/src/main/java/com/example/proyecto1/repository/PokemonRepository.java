@@ -61,7 +61,7 @@ public class PokemonRepository {
     }
 
     public void eliminarPokemon(Pokemon pokemon){
-        listaPokemons.remove(pokemon);
+        miEquipo.remove(pokemon);
     }
 
     public List<Pokemon> getPokemons(){
@@ -94,9 +94,16 @@ public class PokemonRepository {
             return null; // Evita errores si la lista está vacía
         }
 
-        // 1. Selecciona un Pokémon al azar de la lista completa
-        int randomIndex = (int) (Math.random() * listaPokemons.size());
-        Pokemon pokemonAleatorio = listaPokemons.get(randomIndex);
+        if (miEquipo.size() >= listaPokemons.size()) {
+            return null; // Evita un bucle infinito si ya están todos los Pokémon en el equipo
+        }
+        Pokemon pokemonAleatorio;
+        do {
+            // 1. Selecciona un Pokémon al azar de la lista completa
+            int randomIndex = (int) (Math.random() * listaPokemons.size());
+            pokemonAleatorio = listaPokemons.get(randomIndex);
+
+        }while (miEquipo.contains(pokemonAleatorio));
 
         // 2. Lo añade a la lista estática del equipo
         miEquipo.add(pokemonAleatorio);
