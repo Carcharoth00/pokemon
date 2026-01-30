@@ -1,6 +1,8 @@
 package com.example.proyecto1.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Pokemon implements Serializable {
@@ -8,11 +10,13 @@ public class Pokemon implements Serializable {
     private String nombre;
     private int image;
     private String numero;
+    private List<String> tipos;
 
-    public Pokemon(String nombre, int image, String numero) {
+    public Pokemon(String nombre, int image, String numero, List<String> tipos) {
         this.nombre = nombre;
         this.image = image;
         this.numero = numero;
+        this.tipos = tipos;
     }
 
     public String getNombre() {
@@ -33,6 +37,14 @@ public class Pokemon implements Serializable {
 
     public String getNumero() {
         return numero;
+    }
+
+    public List<String> getTipos() {
+        return tipos;
+    }
+
+    public void setTipos(List<String> tipos) {
+        this.tipos = tipos;
     }
 
     public void setNumero(String numero) {
